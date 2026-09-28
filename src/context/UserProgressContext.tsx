@@ -31,17 +31,39 @@ const UserProgressContext = createContext<UserProgressContextType | null>(null);
 
 export const UserProgressProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [theme, setTheme] = useState<'light' | 'dark'>(() => {
-    const saved = localStorage.getItem('cuet_theme');
-    if (saved === 'dark' || saved === 'light') return saved;
-    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    try {
+      const saved = localStorage.getItem('cuet_theme');
+      if (saved === 'dark' || saved === 'light') return saved;
+      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    } catch {
+      return 'light';
+    }
   });
 
   useEffect(() => {
-    localStorage.setItem('cuet_theme', theme);
-    if (theme === 'dark') {
+    try {
+      localStorage.setItem('cuet_theme', theme);
+    } catch (e) {}
+
+    const isDark = theme === 'dark';
+    
+    // Apply to both documentElement and body for absolute certainty
+    if (isDark) {
       document.documentElement.classList.add('dark');
+      document.body.classList.add('dark');
+      document.documentElement.setAttribute('data-theme', 'dark');
+      document.body.setAttribute('data-theme', 'dark');
     } else {
       document.documentElement.classList.remove('dark');
+      document.body.classList.remove('dark');
+      document.documentElement.setAttribute('data-theme', 'light');
+      document.body.setAttribute('data-theme', 'light');
+    }
+
+    // Synchronize browser theme-color meta tag
+    const metaThemeColor = document.querySelector('meta[name="theme-color"]');
+    if (metaThemeColor) {
+      metaThemeColor.setAttribute('content', isDark ? '#020617' : '#1d4ed8');
     }
   }, [theme]);
 

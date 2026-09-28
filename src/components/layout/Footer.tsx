@@ -1,9 +1,11 @@
 import React from 'react';
-import { ShieldCheck, ExternalLink, GitBranch, Heart } from 'lucide-react';
+import { ShieldCheck, ExternalLink, GitBranch, Heart, Sun, Moon } from 'lucide-react';
 import { useLanguage } from '../../context/LanguageContext';
+import { useUserProgress } from '../../context/UserProgressContext';
 
 export const Footer: React.FC<{ setCurrentTab: (tab: string) => void }> = ({ setCurrentTab }) => {
   const { t } = useLanguage();
+  const { theme, toggleTheme } = useUserProgress();
 
   return (
     <footer className="bg-slate-900 text-slate-300 border-t border-slate-800 py-12 px-4 text-xs mt-16 mb-12 md:mb-0">
@@ -116,6 +118,15 @@ export const Footer: React.FC<{ setCurrentTab: (tab: string) => void }> = ({ set
           © {new Date().getFullYear()} CUET UNIVERSITY MASTER INDIA. Open Source Public Education Initiative.
         </div>
         <div className="flex items-center gap-4">
+          <button
+            type="button"
+            onClick={toggleTheme}
+            className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-750 text-slate-300 hover:text-white border border-slate-700 transition-colors"
+          >
+            {theme === 'dark' ? <Sun className="w-3.5 h-3.5 text-amber-400" /> : <Moon className="w-3.5 h-3.5 text-indigo-400" />}
+            <span className="capitalize">{theme === 'dark' ? 'Light Mode' : 'Dark Mode'}</span>
+          </button>
+          <span>•</span>
           <a
             href="https://github.com/raghavendra-exp/cuet-master-india"
             target="_blank"

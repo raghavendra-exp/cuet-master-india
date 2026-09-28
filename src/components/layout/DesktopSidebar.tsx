@@ -19,9 +19,12 @@ import {
   BarChart3,
   Scale,
   Compass,
-  Briefcase
+  Briefcase,
+  Sun,
+  Moon
 } from 'lucide-react';
 import { useLanguage } from '../../context/LanguageContext';
+import { useUserProgress } from '../../context/UserProgressContext';
 
 interface SidebarProps {
   currentTab: string;
@@ -43,6 +46,7 @@ interface NavSection {
 
 export const DesktopSidebar: React.FC<SidebarProps> = ({ currentTab, setCurrentTab }) => {
   const { t } = useLanguage();
+  const { theme, toggleTheme } = useUserProgress();
 
   const navSections: NavSection[] = [
     {
@@ -138,6 +142,40 @@ export const DesktopSidebar: React.FC<SidebarProps> = ({ currentTab, setCurrentT
             </div>
           </div>
         ))}
+
+        {/* Dedicated Sidebar Appearance / Theme Switcher */}
+        <div className="pt-2 border-t border-slate-200 dark:border-slate-800">
+          <div className="text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider px-3 mb-2 flex items-center justify-between">
+            <span>Appearance</span>
+            <span className="text-[10px] text-blue-600 dark:text-blue-400 font-medium capitalize">{theme} Mode</span>
+          </div>
+          <div className="bg-slate-100 dark:bg-slate-800/80 p-1 rounded-xl flex items-center gap-1 border border-slate-200 dark:border-slate-700">
+            <button
+              type="button"
+              onClick={() => { if (theme !== 'light') toggleTheme(); }}
+              className={`flex-1 flex items-center justify-center gap-1.5 py-1.5 px-2 rounded-lg text-xs font-semibold transition-all ${
+                theme === 'light'
+                  ? 'bg-white text-slate-900 shadow-xs border border-slate-200'
+                  : 'text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200'
+              }`}
+            >
+              <Sun className="w-3.5 h-3.5 text-amber-500" />
+              <span>Light</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => { if (theme !== 'dark') toggleTheme(); }}
+              className={`flex-1 flex items-center justify-center gap-1.5 py-1.5 px-2 rounded-lg text-xs font-semibold transition-all ${
+                theme === 'dark'
+                  ? 'bg-slate-700 text-white shadow-xs border border-slate-600'
+                  : 'text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200'
+              }`}
+            >
+              <Moon className="w-3.5 h-3.5 text-indigo-400" />
+              <span>Dark</span>
+            </button>
+          </div>
+        </div>
       </div>
     </aside>
   );

@@ -365,7 +365,7 @@ export const SubjectSelectionWizard: React.FC = () => {
                   requiredSubjects: selectedProgramme.cuetSubjectsRequired,
                   applicationStatus: 'Not Started'
                 })}
-                className="text-xs bg-white dark:bg-slate-800 text-slate-800 dark:text-white px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 font-semibold shadow-sm hover:bg-slate-50"
+                className="text-xs bg-white dark:bg-slate-800 text-slate-800 dark:text-white px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 font-semibold shadow-sm hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors"
               >
                 + Add to My Target List
               </button>
